@@ -45,8 +45,11 @@ final class TestMain {
       @Override
       public void run(JSONFactory factory) throws Exception {
         final JSONParser parser = factory.parser();
+        //fails string 
+        //final JSON obj = parser. parse ("{ \"name\":{\"first\":\"sam\", \"last\":\"doe\"} }");
         final JSON obj = parser.parse("{ \"name\":\"sam doe\" }");
 
+        //Asserts.isEqual("{first:sam:last:doe}", obj.getString("name"));
         Asserts.isEqual("sam doe", obj.getString("name"));
      }
     });
@@ -56,6 +59,8 @@ final class TestMain {
       public void run(JSONFactory factory) throws Exception {
 
         final JSONParser parser = factory.parser();
+        // fails object
+        //final JSON obj = parser.parse("{ \"name\":{\"first\":\"sam\" \"last\":\"doe\" } }");
         final JSON obj = parser.parse("{ \"name\":{\"first\":\"sam\", \"last\":\"doe\" } }");
 
         final JSON nameObj = obj.getObject("name");
@@ -64,6 +69,38 @@ final class TestMain {
         Asserts.isEqual("sam", nameObj.getString("first"));
         Asserts.isEqual("doe", nameObj.getString("last"));
       }
+    });
+    //fails this test since the tempjson is not cleared after it is added to myjson 
+    tests.add("Nested", new Test() {
+      @Override
+      public void run(JSONFactory factory) throws Exception {
+
+        final JSONParser parser = factory.parser();
+        // fails object
+        
+        final JSON obj = parser.parse("{ \"name\":{\"first\":\"sam\", \"last\":\"doe\" },{\"school\":{\"elementary\":\"first\",\"middle\":\"sixth\"} }");
+
+        final JSON nameObj = obj.getObject("name");
+        final JSON nameObj2 = obj.getObject("school");
+
+        Asserts.isNotNull(nameObj);
+        Asserts.isNotNull(nameObj2);
+        Asserts.isEqual("sam", nameObj.getString("first"));
+        Asserts.isEqual("doe", nameObj.getString("last"));
+        Asserts.isEqual("first", nameObj.getString("elementary"));
+        Asserts.isEqual("sixth", nameObj.getString("middle"));
+      }
+    });
+     tests.add("Two Key Value", new Test() {
+      @Override
+      public void run(JSONFactory factory) throws Exception {
+        final JSONParser parser = factory.parser();
+
+        final JSON obj = parser.parse("{ \"name\":\"sam doe\"} ,{\"grade\":\"eleven\"}");
+
+        Asserts.isEqual("sam doe", obj.getString("name"));
+        Asserts.isEqual("eleven", obj.getString("grade"));
+     }
     });
 
     tests.run(new JSONFactory(){

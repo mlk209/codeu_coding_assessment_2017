@@ -17,19 +17,19 @@ package com.google.codeu.codingchallenge;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 
 final class MyJSON implements JSON {
-  private Map<String,Object> map = new HashMap<String,Object>();
-  public MyJSON(){
-  }
+  public Map<String,Object> map_obj = new HashMap<String,Object>();
+  public Map<String,String> map_str = new HashMap<String,String>();
 
   
   @Override
   public JSON getObject(String name) {
     // TODO: implement this
-    return (JSON) map.get(name);
+    return (JSON) map_obj.get(name);
     
   
   }
@@ -37,14 +37,14 @@ final class MyJSON implements JSON {
   @Override
   public JSON setObject(String name, JSON value) {
     // TODO: implement this
-    map.put(name,value);
+    map_obj.put(name,value);
     return this;
   }
 
   @Override
   public String getString(String name) {
     // TODO: implement this
-    return (String) map.get(name);
+    return (String) map_str.get(name);
     
    
   }
@@ -52,18 +52,26 @@ final class MyJSON implements JSON {
   @Override
   public JSON setString(String name, String value) {
     // TODO: implement this
-    map.put(name,value);
+    map_str.put(name,value);
     return this;
   }
 
   @Override
   public void getObjects(Collection<String> names) {
     // TODO: implement this
+    Set<String>keys = map_obj.keySet();
+    for(String key: keys){
+      names.add(key);
+    }
   }
 
   @Override
   public void getStrings(Collection<String> names) {
     // TODO: implement this
+    Set<String>keys = map_str.keySet();
+    for(String key:keys){
+      names.add(key);
+    }
   }
 
 }
