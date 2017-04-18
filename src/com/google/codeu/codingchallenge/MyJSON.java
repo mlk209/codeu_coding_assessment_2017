@@ -15,30 +15,44 @@
 package com.google.codeu.codingchallenge;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+
 
 final class MyJSON implements JSON {
+  private Map<String,Object> map = new HashMap<String,Object>();
+  public MyJSON(){
+  }
 
+  
   @Override
   public JSON getObject(String name) {
     // TODO: implement this
-    return null;
+    return (JSON) map.get(name);
+    
+  
   }
 
   @Override
   public JSON setObject(String name, JSON value) {
     // TODO: implement this
+    map.put(name,value);
     return this;
   }
 
   @Override
   public String getString(String name) {
     // TODO: implement this
-    return null;
+    return (String) map.get(name);
+    
+   
   }
 
   @Override
   public JSON setString(String name, String value) {
     // TODO: implement this
+    map.put(name,value);
     return this;
   }
 
@@ -51,4 +65,5 @@ final class MyJSON implements JSON {
   public void getStrings(Collection<String> names) {
     // TODO: implement this
   }
+
 }
